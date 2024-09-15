@@ -1,4 +1,4 @@
-# To-Do List Web Application
+# To-Do List
 
 ## Описание проекта
 
@@ -22,7 +22,7 @@
    ```bash
    git clone https://github.com/yourusername/todo-app.git
    cd todo-app
-
+    ```
 2. Установите зависимости:
     pip install -r requirements.txt
 
@@ -31,11 +31,13 @@
 1. Убедитесь, что PostgreSQL установлен и запущен.
 
 2. Создайте базу данных PostgreSQL:
+    ```bash
     CREATE DATABASE tododb;
     CREATE USER postgres WITH PASSWORD 'your_password';
     GRANT ALL PRIVILEGES ON DATABASE todo_db TO todo_user;
-
+    ```
 3. Обновите настройки базы данных в settings.py:
+```bash
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -46,10 +48,12 @@
         'PORT': '5432',
     }
 }
+```
 
 4. Примените миграции:
+    ```bash
     python manage.py migrate
-
+    ```
 ## Запуск серверной части
 
 1. Создайте суперпользователя (для доступа к админке Django):
@@ -63,7 +67,9 @@ API будет доступен по адресу http://127.0.0.1:8000.
 # 2. Frontend (React)
 Установка зависимостей
 1. Перейдите в директорию фронтенда:
+    ```bash
     cd frontend
+    ```
 2. Установите зависимости:
     npm install
 

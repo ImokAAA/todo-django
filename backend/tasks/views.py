@@ -15,8 +15,8 @@ class TaskListCreate(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['completed']  # Фильтрация по полю "completed"
-    ordering_fields = ['created_at', 'completed']  # Сортировка по дате создания и статусу
+    filterset_fields = ['completed']  # filtration by field "comlpleted"
+    ordering_fields = ['created_at', 'completed'] 
 
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)

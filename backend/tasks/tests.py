@@ -6,25 +6,25 @@ from .models import Task
 
 class TaskAPITestCase(APITestCase):
     def setUp(self):
-        # Создаем тестового пользователя
+        # creating test user
         self.user = User.objects.create_user(username="testuser", password="testpass")
         self.task = Task.objects.create(title="Test Task", user=self.user)
 
-        # Получаем JWT токен
+        # jwt token
         refresh = RefreshToken.for_user(self.user)
         self.access_token = str(refresh.access_token)
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.access_token)
 
     def test_task_list(self):
-        # Тестируем получение списка задач
+        # testing task list 
         response = self.client.get('/api/tasks/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['title'], 'Test Task')
 
     def test_task_create(self):
-        # Тестируем создание новой задачи
+        # testing task creating
         data = {
             "title": "New Task"
         }
@@ -34,13 +34,13 @@ class TaskAPITestCase(APITestCase):
         self.assertEqual(Task.objects.get(id=response.data['id']).title, "New Task")
 
     def test_task_detail(self):
-        # Тестируем получение одной задачи
+        # testing get of one task
         response = self.client.get(f'/api/tasks/{self.task.id}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['title'], 'Test Task')
 
     def test_task_update(self):
-        # Тестируем обновление задачи
+        # testing task update
         data = {
             "title": "Updated Task",
             "completed": True
@@ -52,7 +52,7 @@ class TaskAPITestCase(APITestCase):
         self.assertTrue(self.task.completed)
     
     def test_task_update_without_title(self):
-        # Тестируем обновление задачи
+        # testing task update in patch
         data = {
             "completed": True
         }
@@ -62,13 +62,13 @@ class TaskAPITestCase(APITestCase):
         self.assertTrue(self.task.completed)
 
     def test_task_delete(self):
-        # Тестируем удаление задачи
+        # testing task deletion
         response = self.client.delete(f'/api/tasks/{self.task.id}/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Task.objects.count(), 0)
 
     def test_unauthorized_access(self):
-        # Тестируем попытку доступа без авторизации
-        self.client.credentials()  # Очищаем токен
+        # testing unauthorizes access
+        self.client.credentials()  # token cleaning
         response = self.client.get('/api/tasks/')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

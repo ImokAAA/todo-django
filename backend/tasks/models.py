@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Task(models.Model):
+    #Model for managing task entity in orm
     title = models.CharField(max_length=255)
     completed = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
